@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+
+{% block content %}
+<div class="border w-75 rounded-2 shadow p-3 m-auto">
+    <div class="border-bottom my-3 p-3">
+        <h2 class="text-center">Sign Up</h2>
+    </div>
+    <form method="post">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        {% bootstrap_button button_type="submit" content="Submit" %}
+    </form>
+    <div class="border-top pt-3 mt-3">
+    <small class="text-muted">
+        Already have an account? <a class=ml-2" href="{% url 'login' %}">Sign In</a>
+    </small>
+</div>
+</div>
+
+{% endblock %}

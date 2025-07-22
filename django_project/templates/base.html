@@ -1,4 +1,5 @@
 {% load django_bootstrap5 %}
+{% load static %}
 <!doctype html>
 <html lang="en">
 <head>
@@ -6,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     {% bootstrap_css %}
     {% bootstrap_javascript %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     <title>
         {% if title %}
             {{ title }}
@@ -15,15 +17,80 @@
     </title>
 </head>
 <body>
-<div class="container">
-<nav class="navbar">
-      <a class="nav-link" href="{% url 'blog-home' %}">Home</a>
+<header class="bg-custom">
+    <div class="row">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-6">
+            <nav class="navbar navbar-expand-lg bg-custom">
+              <div class="container-fluid">
+                <a class="navbar-brand text-white" href="#">BLOG</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                  <div class="navbar-nav">
+                    <a class="nav-link text-white" href="/">Blog Home</a>
+                    <a class="nav-link text-white" href="{% url 'blog-about' %}">About Blog</a>
 
-      <a class="nav-link" href="{% url 'blog-about' %}">About Us</a>
-</nav>
+                  </div>
+                </div>
+              </div>
+            </nav>
+        </div>
+        <div class="col-sm-4">
+            <nav class="navbar navbar-expand-lg bg-custom">
+                <div class="container-fluid">
+                    <div class="navbar-nav">
+                        {% if user.is_authenticated %}
+                            <a class="nav-link text-light" href="{% url 'user-profile' %}">{{ user.username }}</a>
+                            <a class="nav-link text-light" href="/admin">Admin</a>
+                            <form method="post" action="{% url 'logout' %}">
+                                {% csrf_token %}
+                                <button class="nav-link text-light" type="submit">logout</button>
+                            </form>
+                        {% else %}
+                            <a class="nav-link text-light" href="{% url 'login' %}">Login</a>
+                            <a class="nav-link text-light" href="{% url 'user-register' %}">register</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
 
-    {% block content %}
-    {% endblock %}
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-sm-8">
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+            {% block content %}
+            {% endblock %}
+        </div>
+        <div class="col-sm-4 mt-3">
+                <div class="border mt-3">
+                    <a class="link-secondary link-offset-2 link-underline-opacity-0 link-underline-opacity-100-hover" href="#">Last Updated.</a>
+                </div>
+                <div class="border">
+                    <a class="link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" href="#">Last Updated.</a>
+                </div>
+                <div class="border">
+                    <a class="link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" href="#">Last Updated.</a>
+                </div>
+                <div class="border">
+                    <a class="link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" href="#">Last Updated.</a>
+                </div>
+            {% block sidebar %}
+            {% endblock %}
+        </div>
+    </div>
+
 </div>
 
 </body>
