@@ -1,0 +1,30 @@
+{% load django_bootstrap5 %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    <title>
+        {% if title %}
+            {{ title }}
+        {% else %}
+            Django Blog
+        {% endif %}
+    </title>
+</head>
+<body>
+<div class="container">
+<nav class="navbar">
+      <a class="nav-link" href="{% url 'blog-home' %}">Home</a>
+
+      <a class="nav-link" href="{% url 'blog-about' %}">About Us</a>
+</nav>
+
+    {% block content %}
+    {% endblock %}
+</div>
+
+</body>
+</html>
