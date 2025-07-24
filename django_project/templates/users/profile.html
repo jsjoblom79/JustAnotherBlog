@@ -1,12 +1,26 @@
 {% extends 'base.html' %}
+{% load django_bootstrap5 %}
 {% load static %}
 {% block content %}
 <div class="card">
     <div class="card-body">
-        <img class="rounded-circle float-start" src="{% static user.profile.image %}" style="width: 100px; height: 100px;">
-        <h3 class="card-title ml-4">{{ user.username }}</h3>
-        <p class="text-muted">{{ user.email }}</p>
+        <img class="rounded-circle float-start m-3" src="{% static user.profile.image %}" style="width: 100px; height: 100px;">
+        <div class="p-3 ml-5">
+            <h3 class="card-title ml-4">{{ user.username }}</h3>
+            <p class="text-muted">{{ user.email }}</p>
+        </div>
+
     </div>
+    <div class="row p-3">
+        <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% bootstrap_form u_form %}
+        {% bootstrap_form p_form %}
+        {% bootstrap_button button_type="submit" content="Update" %}
+        </form>
+    </div>
+
+
 </div>
 
 {% endblock %}

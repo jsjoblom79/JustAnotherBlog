@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+
+{% block content %}
+<div class="border shadow bg-white p-3 rounded">
+    <form method="post">
+      {% csrf_token %}
+      {% bootstrap_form form %}
+      {% bootstrap_button button_type='submit' content='submit' %}
+        {% if object %}
+      <a class="btn btn-secondary" href="{% url 'post-detail' object.id %}">Cancel</a>
+        {% endif %}
+    </form>
+</div>
+
+{% endblock %}
