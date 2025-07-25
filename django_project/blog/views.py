@@ -3,7 +3,7 @@ from django.views.generic import (
     ListView, DetailView, CreateView, UpdateView, DeleteView
 )
 from django.contrib.auth.models import User
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin, PermissionRequiredMixin
 from .models import Post
 
 
@@ -13,12 +13,13 @@ from .models import Post
 #     }
 #     return render(request, 'blog/blog_index.html', context)
 
-class PostListView(ListView):
+class PostListView(PermissionRequiredMixin, ListView):
     model = Post
     template_name = 'blog/blog_index.html'
     context_object_name = 'posts'
     ordering = ['-date_posted']
     paginate_by = 5
+    permission_required = 'Administration'
 
 class UserPostListView(ListView):
     model = Post
